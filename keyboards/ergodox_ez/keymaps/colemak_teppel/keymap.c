@@ -41,19 +41,19 @@ uint16_t kf_timers[14];
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 /* Keymap 0: Basic layer
  *
- * ,---------------------------------------------------------           ,--------------------------------------------------------.
- * |  Esc ` |       |  ! F2  | @ F3  | # F4  |   $   |   %   |          |   ^   |   ~   |  * F5  | = F6  | - F10 | & F12|        |
- * |--------+-------+--------+-------+-------+-------+-------|          |-------+-------+--------+-------+-------+------+--------|
- * |        |   Q   |    W   |   F   |   P   |   G   |  Tab  |          |  ( )  |   J   |   L    |   U   |   Y   |   ;  |   \    |
- * |--------+-------+--------+-------+-------+-------|       |          |       |-------+--------+-------+-------+------+--------|
- * |        |   A   |    R   | S CA  | T CS  |   D   |-------|          |-------|   H   |   N    |   E   |   I   | O L2 |   '    |
- * |--------+-------+--------+-------+-------+----- -|  [    |          |  ]    |-------+--------+-------+-------+------+--------|
- * | MShift | Z Ctrl|    X   |   C   |   V   |   B   |       |          |       |   K   |   M -  |   ,   |   .   |/ Ctrl| )Shift |
- * `--------+-------+--------+-------+-------+-------+-------'          `--------------+---------+-------+-------+------+--------'
- *   |  Ins |  Home |  PgUp  |  PgDn |  End |                                            | Left  | Down  |  Up   | Right| ~L1  |
- *   `--------------------------------------'                                            `-------------------------------------'
+ * ,---------------------------------------------------------           ,-----------------------------------------------------------.
+ * |  Esc ` | ! F1  |  @ F2  | # F3  | $ F4  | % F5  |  F6   |          | ^ F7  | ~ F8  |  * F9  | = F10  | - F11  | & F12 |        |
+ * |--------+-------+--------+-------+-------+-------+-------|          |-------+-------+--------+--------+--------+-------+--------|
+ * |        |   Q   |    W   |   F   |   P   |   G   |  Tab  |          |  ( )  |   J   |   L    |   U    |   Y    |   ;   |   \    |
+ * |--------+-------+--------+-------+-------+-------|       |          |       |-------+--------+--------+--------+-------+--------|
+ * |        |   A   |    R   | S CA  | T CS  |   D   |-------|          |-------|   H   |   N    |   E    |   I    | O L2  |   '    |
+ * |--------+-------+--------+-------+-------+----- -|  [    |          |  ]    |-------+--------+--------+--------+-------+--------|
+ * | MShift | Z Ctrl|    X   |   C   |   V   |   B   |       |          |       |   K   |   M    |   ,    |   .    |/ Ctrl | )Shift |
+ * `--------+-------+--------+-------+-------+-------+-------'          `--------------+---------+--------+--------+-------+--------'
+ *   |  Ins |  Home |  PgUp  |  PgDn |  End |                                            | Left  | Down   |  Up    | Right | ~L1  |
+ *   `--------------------------------------'                                            `----------------------------------------'
  *                                             ,-------------.          ,----------------.
- *                                             |      |  L1  |          |   L2  |        |
+ *                                             |      | Del  |          |   L1  |   L2   |
  *                                     ,-------|------|------|          |-------+--------+-------------.
  *                                     |       |      |Gui ` |          | Gui \ |        |             |
  *                                     |  Ctrl | Alt  |------|          |-------| Space  | Enter Shift |
@@ -64,21 +64,21 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 // Otherwise, it needs KC_*
 [BASE] = LAYOUT_ergodox(  // layer 0 : default
         // left hand
-        KC_GESC,        KC_TRNS,      M(KF_2),  M(KF_3), M(KF_4), KC_DLR, KC_PERC,
+        KC_GESC,        M(KF_1),   M(KF_2),  M(KF_3), M(KF_4),  M(KF_5), KC_F6,
         KC_TRNS,        KC_Q,         KC_W,     KC_F,    KC_P,    KC_G,   KC_TAB, // KC_LPRN, KC_RPRN
         KC_TRNS,        KC_A,         KC_R,      MT(MOD_LCTL | MOD_LALT, KC_S),  MT(MOD_LCTL | MOD_LSFT, KC_T),    KC_D,
         OSM(MOD_LSFT),  CTL_T(KC_Z),        KC_X,     KC_C,    KC_V,    KC_B,   KC_LBRC,
         KC_INS,         KC_HOME,      KC_PGUP,  KC_PGDN, KC_END,
-                                               KC_TRNS, TG(SYMB),
+                                               KC_TRNS, KC_DEL,
                                                               GUI_T(KC_GRV),
                                                KC_LCTL,KC_LALT,KC_BSPC,
         // right hand
-             KC_CIRC,     KC_TILD,M(KF_5), M(KF_6), M(KF_10), M(KF_12),         KC_TRNS, // KC_AMPR, KC_LPRN, KC_RPRN
+             M(KF_7),     M(KF_8),M(KF_9), M(KF_10), M(KF_11), M(KF_12),         KC_TRNS, // KC_AMPR, KC_LPRN, KC_RPRN
              M(KF_PRN),   KC_J,   KC_L,    KC_U,    KC_Y,     KC_SCLN,          KC_BSLS,
                           KC_H,   KC_N,    KC_E,    KC_I,     LT(MDIA, KC_O),   KC_QUOT,
              KC_RBRC,     KC_K,   KC_M,    KC_COMM, KC_DOT,   CTL_T(KC_SLSH),   KC_RSPC,
                                   KC_LEFT, KC_DOWN, KC_UP,    KC_RGHT,          KC_FN1,
-             TG(MDIA), KC_TRNS,
+             TG(SYMB), TG(MDIA),
              GUI_T(KC_BSLS),
              KC_GESC,KC_SPC, KC_SFTENT
     ),
@@ -213,14 +213,19 @@ void ang_handle_kf (keyrecord_t *record, uint8_t id)
       }
     } else { // Short press
       switch(id) {
-        case KF_2: shift(KC_EXLM); break;
-        case KF_3: shift(KC_AT); break;
-        case KF_4: shift(KC_HASH); break;
-        case KF_5: shift(KC_ASTR); break;
-        case KF_6: register_code(KC_EQL); unregister_code(KC_EQL); break;
-        case KF_10: register_code(KC_MINS); unregister_code(KC_MINS); break;
-        case KF_12: shift(KC_7); break;
-        case KF_PRN: shift(KC_9); break;
+        case KF_1: shift(KC_EXLM); break;
+        case KF_2: shift(KC_AT); break;
+        case KF_3: shift(KC_HASH); break;
+        case KF_4: shift(KC_DLR); break;
+        case KF_5: shift(KC_PERC); break;
+        case KF_7: shift(KC_CIRC); break;
+        case KF_8: shift(KC_TILD); break;
+        case KF_9: shift(KC_CIRC); break;
+        case KF_10: register_code(KC_EQL); unregister_code(KC_EQL); break;
+        case KF_11: register_code(KC_MINS); unregister_code(KC_MINS); break;
+        case KF_12: shift(KC_AMPR); break;
+        // case KF_12: shift(KC_7); break;
+        // case KF_PRN: shift(KC_9); break;
         default: register_code (KC_TRNS); unregister_code (KC_TRNS); break;
       }
     }
