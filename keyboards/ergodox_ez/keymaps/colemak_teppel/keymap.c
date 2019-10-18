@@ -38,10 +38,8 @@ uint16_t kf_timers[14];
 
 //Tap Dance Declarations
 void accent_a (qk_tap_dance_state_t *state, void *user_data) {
-    if (state->count == 2) {
-    unicode_input_start();
-    register_hex(0xe1);
-    unicode_input_finish();
+  if (state->count == 2) {
+    unicode_input_start(); register_hex(0x51F8); unicode_input_finish();
   } else {
     register_code(KC_A);
     unregister_code(KC_A);
